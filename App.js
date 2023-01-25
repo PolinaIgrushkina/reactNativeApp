@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { StyleSheet } from "react-native";
+
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
-import RegistrationScreen from "./Screens/RegistrationScreen";
-import LoginScreen from "./Screens/LoginScreen";
+
+import { useRoute } from "./router";
 
 const loadFonts = async () => {
   await Font.loadAsync({
@@ -14,10 +13,9 @@ const loadFonts = async () => {
   });
 };
 
-const AuthStack = createStackNavigator();
-
 export default function App() {
   const [isReady, setIsReady] = useState(false);
+  const routing = useRoute(true);
 
   if (!isReady) {
     return (
@@ -29,26 +27,5 @@ export default function App() {
     );
   }
 
-  return (
-    <NavigationContainer>
-      <AuthStack.Navigator>
-        <AuthStack.Screen
-          name="Registration"
-          component={RegistrationScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <AuthStack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-      </AuthStack.Navigator>
-    </NavigationContainer>
-  );
+  return <NavigationContainer>{routing}</NavigationContainer>;
 }
-
-const styles = StyleSheet.create({});
