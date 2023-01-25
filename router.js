@@ -1,4 +1,5 @@
 import React from "react";
+import { TouchableOpacity } from "react-native";
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -13,6 +14,7 @@ import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
 const AuthStack = createStackNavigator();
+const HomeStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
 export const useRoute = (isAuth) => {
@@ -37,12 +39,25 @@ export const useRoute = (isAuth) => {
     );
   }
   return (
-    <MainTab.Navigator tabBarOptions={{ showLabel: false }}>
+    <MainTab.Navigator>
       <MainTab.Screen
         options={{
+          tabBarShowLabel: false,
           title: "Публикации",
-          headerRight: ({ focused, size, color }) => (
-            <Feather name="log-out" size={24} color="#BDBDBD" />
+          headerTitleStyle: {
+            color: "#212121",
+            fontFamily: "Roboto-Medium",
+            fontSize: 17,
+            lineHeight: 22,
+            letterSpacing: -0.408,
+          },
+          headerRight: () => (
+            <TouchableOpacity
+              style={{ marginRight: 16 }}
+              onPress={() => alert("Log out!")}
+            >
+              <Feather name="log-out" size={24} color="#BDBDBD" />
+            </TouchableOpacity>
           ),
           tabBarIcon: ({ focused, size, color }) => (
             <Feather name="grid" size={24} color="rgba(33, 33, 33, 0.8)" />
@@ -53,23 +68,45 @@ export const useRoute = (isAuth) => {
       />
       <MainTab.Screen
         options={{
+          tabBarShowLabel: false,
           title: "Создать публикацию",
-          headerLeft: ({ focused, size, color }) => (
-            <Feather
-              name="arrow-left"
-              size={24}
-              color="rgba(33, 33, 33, 0.8)"
-            />
+          headerTitleStyle: {
+            color: "#212121",
+            fontFamily: "Roboto-Medium",
+            fontSize: 17,
+            lineHeight: 22,
+            letterSpacing: -0.408,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{ marginLeft: 16 }}
+              onPress={() => alert("Go back!")}
+            >
+              <Feather
+                name="arrow-left"
+                size={24}
+                color="rgba(33, 33, 33, 0.8)"
+              />
+            </TouchableOpacity>
           ),
           tabBarIcon: ({ focused, size, color }) => (
-            <AntDesign name="plus" size={13} color="black" />
+            <AntDesign name="plus" size={13} color="#fff" />
           ),
+          tabBarIconStyle: {
+            display: "block",
+            width: 70,
+            height: 40,
+            backgroundColor: "#FF6C00",
+            borderRadius: 20,
+            marginTop: 9,
+          },
         }}
         name="Create"
         component={CreatePostsScreen}
       />
       <MainTab.Screen
         options={{
+          tabBarShowLabel: false,
           headerShown: false,
           tabBarIcon: ({ focused, size, color }) => (
             <Feather name="user" size={24} color="rgba(33, 33, 33, 0.8)" />
