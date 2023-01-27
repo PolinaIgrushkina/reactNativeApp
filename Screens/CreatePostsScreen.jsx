@@ -10,6 +10,7 @@ import {
 import { Camera } from "expo-camera";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import * as Location from "expo-location";
 
 export default function CreateScreen({ navigation }) {
   const [camera, setCamera] = useState(null);
@@ -17,6 +18,7 @@ export default function CreateScreen({ navigation }) {
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
+    const location = await Location.getCurrentPositionAsync();
     setPhoto(photo.uri);
     console.log("photo", photo);
   };
