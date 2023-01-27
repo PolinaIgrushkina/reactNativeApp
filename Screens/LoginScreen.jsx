@@ -110,7 +110,12 @@ export default function LoginScreen({ navigation }) {
                 style={styles.btn}
                 onPress={onRegistration}
               >
-                <Text style={styles.btnTitle}>Войти</Text>
+                <Text
+                  style={styles.btnTitle}
+                  onPress={() => navigation.navigate("Posts")}
+                >
+                  Войти
+                </Text>
               </TouchableOpacity>
 
               <TouchableOpacity

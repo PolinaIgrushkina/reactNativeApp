@@ -135,7 +135,12 @@ export default function RegistrationScreen({ navigation }) {
                 style={styles.btn}
                 onPress={onRegistration}
               >
-                <Text style={styles.btnTitle}>Зарегистрироваться</Text>
+                <Text
+                  style={styles.btnTitle}
+                  onPress={() => navigation.navigate("Posts")}
+                >
+                  Зарегистрироваться
+                </Text>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => navigation.navigate("Login")}>

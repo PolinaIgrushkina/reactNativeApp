@@ -80,7 +80,7 @@ export const useRoute = (isAuth) => {
           headerLeft: () => (
             <TouchableOpacity
               style={{ marginLeft: 16 }}
-              onPress={() => alert("Go back!")}
+              // onPress={() => navigation.navigate("Posts")}
             >
               <Feather
                 name="arrow-left"

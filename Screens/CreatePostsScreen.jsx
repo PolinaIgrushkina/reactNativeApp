@@ -24,7 +24,7 @@ export default function CreateScreen({ navigation }) {
   };
 
   const sendPhoto = () => {
-    navigation.navigate("Posts", { photo });
+    navigation.navigate("Home", { photo });
   };
 
   return (
