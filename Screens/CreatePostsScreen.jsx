@@ -15,16 +15,18 @@ import * as Location from "expo-location";
 export default function CreateScreen({ navigation }) {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
+  const [location, setLocation] = useState(null);
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
-    const location = await Location.getCurrentPositionAsync();
     setPhoto(photo.uri);
     console.log("photo", photo);
   };
 
-  const sendPhoto = () => {
-    navigation.navigate("Home", { photo });
+  const sendPhoto = async () => {
+    const location = await Location.getCurrentPositionAsync();
+    setLocation(location);
+    navigation.navigate("Home", { photo, location });
   };
 
   return (
