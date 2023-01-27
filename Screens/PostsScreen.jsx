@@ -1,9 +1,24 @@
-import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 
 import { Feather } from "@expo/vector-icons";
 
-export default function PostsScreen({ navigation }) {
+export default function PostsScreen({ route }) {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    if (route.params) {
+      setPosts((prevState) => [...prevState, route.params]);
+    }
+  }, [route.params]);
+
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
@@ -17,30 +32,34 @@ export default function PostsScreen({ navigation }) {
         </View>
       </View>
 
-      <View style={styles.gallery}>
-        <View style={styles.post}>
-          <Image
-            source={require("../assets/images/photo.png")}
-            style={styles.photo}
-          />
-          <Text style={styles.photoTitle}>Лес</Text>
-          <View style={styles.commentsAndLocation}>
-            <TouchableOpacity
-              style={styles.comments}
-              onPress={() => navigation.navigate("CommentsScreen")}
-            >
-              <Feather name="message-circle" size={24} color="#BDBDBD" />
-              <Text style={styles.commentsAmount}>0</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.location}>
-              <Feather name="map-pin" size={24} color="#BDBDBD" />
-              <Text style={styles.locationName}>
-                Ivano-Frankivs'k Region, Ukraine
-              </Text>
-            </TouchableOpacity>
+      <FlatList
+        data={posts}
+        keyExtractor={(item, indx) => indx.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.post}>
+            <Image
+              source={require("../assets/images/photo.png")}
+              style={styles.photo}
+            />
+            <Text style={styles.photoTitle}>Лес</Text>
+            <View style={styles.commentsAndLocation}>
+              <TouchableOpacity
+                style={styles.comments}
+                onPress={() => navigation.navigate("CommentsScreen")}
+              >
+                <Feather name="message-circle" size={24} color="#BDBDBD" />
+                <Text style={styles.commentsAmount}>0</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.location}>
+                <Feather name="map-pin" size={24} color="#BDBDBD" />
+                <Text style={styles.locationName}>
+                  Ivano-Frankivs'k Region, Ukraine
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </View>
+        )}
+      />
     </View>
   );
 }
