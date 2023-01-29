@@ -13,6 +13,10 @@ import {
   Keyboard,
 } from "react-native";
 
+import { useDispatch } from "react-redux";
+
+import { authSignUpUser } from "../redux/auth/authOperations";
+
 export default function RegistrationScreen({ navigation }) {
   const initialState = {
     login: "",
@@ -23,6 +27,8 @@ export default function RegistrationScreen({ navigation }) {
   const [state, setstate] = useState(initialState);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
+  const dispatch = useDispatch();
+
   const [isOnFocusFirst, setIsOnFocusFirst] = useState(false);
   const [isOnFocusSecond, setIsOnFocusSecond] = useState(false);
   const [isOnFocusThird, setIsOnFocusThird] = useState(false);
@@ -30,7 +36,8 @@ export default function RegistrationScreen({ navigation }) {
   const onRegistration = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
-    console.log(state);
+
+    dispatch(authSignUpUser(state));
     setstate(initialState);
   };
 
@@ -135,12 +142,7 @@ export default function RegistrationScreen({ navigation }) {
                 style={styles.btn}
                 onPress={onRegistration}
               >
-                <Text
-                  style={styles.btnTitle}
-                  onPress={() => navigation.navigate("Posts")}
-                >
-                  Зарегистрироваться
-                </Text>
+                <Text style={styles.btnTitle}> Зарегистрироваться</Text>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => navigation.navigate("Login")}>
