@@ -42,6 +42,11 @@ export default function CreateScreen({ navigation }) {
     setLocation(location);
 
     navigation.navigate("Home", { photo, location, photoName, locationName });
+
+    setPhoto(null);
+    setLocation(null);
+    setPhotoName(null);
+    setLocationName(null);
   };
 
   return (
