@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
+  Dimensions,
 } from "react-native";
 import { Camera } from "expo-camera";
 import { Feather } from "@expo/vector-icons";
@@ -18,14 +19,26 @@ export default function CreateScreen({ navigation }) {
   const [location, setLocation] = useState(null);
 
   const takePhoto = async () => {
-    const photo = await camera.takePictureAsync();
-    setPhoto(photo.uri);
-    console.log("photo", photo);
+    const { status } = await Camera.requestCameraPermissionsAsync();
+
+    if (status !== "granted") {
+      console.log("Permission to access camera was denied");
+      return;
+    }
+    const photo1 = await camera.takePictureAsync();
+    setPhoto(photo1.uri);
   };
 
   const sendPhoto = async () => {
-    const location = await Location.getCurrentPositionAsync();
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      console.log("Permission to access location was denied");
+      return;
+    }
+
+    const location = await Location.getCurrentPositionAsync({});
     setLocation(location);
+
     navigation.navigate("Home", { photo, location });
   };
 
@@ -36,7 +49,11 @@ export default function CreateScreen({ navigation }) {
           <View style={styles.takePhotoContainer}>
             <Image
               source={{ uri: photo }}
-              style={{ height: 240, width: 353, borderRadius: 8 }}
+              style={{
+                height: 240,
+                width: Dimensions.get("window").width - 32,
+                borderRadius: 8,
+              }}
             />
           </View>
         )}

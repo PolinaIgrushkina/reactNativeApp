@@ -6,16 +6,19 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  Dimensions,
 } from "react-native";
 
 import { Feather } from "@expo/vector-icons";
 
 export default function Home({ route, navigation }) {
   const [posts, setPosts] = useState([]);
+  const [location, setLocation] = useState(null);
 
   useEffect(() => {
     if (route.params) {
       setPosts((prevState) => [...prevState, route.params]);
+      setLocation(route.params.location);
     }
   }, [route.params]);
 
@@ -37,10 +40,7 @@ export default function Home({ route, navigation }) {
         keyExtractor={(item, indx) => indx.toString()}
         renderItem={({ item }) => (
           <View style={styles.post}>
-            <Image
-              source={require("../assets/images/photo.png")}
-              style={styles.photo}
-            />
+            <Image source={{ uri: item.photo }} style={styles.photo} />
             <Text style={styles.photoTitle}>Лес</Text>
             <View style={styles.commentsAndLocation}>
               <TouchableOpacity
@@ -52,7 +52,7 @@ export default function Home({ route, navigation }) {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.location}
-                onPress={() => navigation.navigate("Map")}
+                onPress={() => navigation.navigate("Map", { location })}
               >
                 <Feather name="map-pin" size={24} color="#BDBDBD" />
                 <Text style={styles.locationName}>
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     marginTop: 32,
   },
   photo: {
+    width: Dimensions.get("window").width - 32,
     height: 240,
     borderRadius: 8,
   },
