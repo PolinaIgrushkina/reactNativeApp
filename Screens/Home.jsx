@@ -14,6 +14,8 @@ import { Feather } from "@expo/vector-icons";
 export default function Home({ route, navigation }) {
   const [posts, setPosts] = useState([]);
   const [location, setLocation] = useState(null);
+  const photoName = route.params?.photoName;
+  const locationName = route.params?.locationName;
 
   useEffect(() => {
     if (route.params) {
@@ -41,7 +43,7 @@ export default function Home({ route, navigation }) {
         renderItem={({ item }) => (
           <View style={styles.post}>
             <Image source={{ uri: item.photo }} style={styles.photo} />
-            <Text style={styles.photoTitle}>{route.params.photoName}</Text>
+            <Text style={styles.photoTitle}>{photoName}</Text>
             <View style={styles.commentsAndLocation}>
               <TouchableOpacity
                 style={styles.comments}
@@ -52,12 +54,12 @@ export default function Home({ route, navigation }) {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.location}
-                onPress={() => navigation.navigate("Map", { location })}
+                onPress={() =>
+                  navigation.navigate("Map", { location, photoName })
+                }
               >
                 <Feather name="map-pin" size={24} color="#BDBDBD" />
-                <Text style={styles.locationName}>
-                  {route.params.locationName}
-                </Text>
+                <Text style={styles.locationName}>{locationName}</Text>
               </TouchableOpacity>
             </View>
           </View>

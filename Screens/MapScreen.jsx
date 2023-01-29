@@ -21,7 +21,7 @@ export default function MapScreen({ route }) {
             latitude: route.params.location.coords.latitude,
             longitude: route.params.location.coords.longitude,
           }}
-          title="Travel photo"
+          title={route.params.photoName}
         />
       </MapView>
     </View>
