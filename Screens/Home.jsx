@@ -41,7 +41,7 @@ export default function Home({ route, navigation }) {
         renderItem={({ item }) => (
           <View style={styles.post}>
             <Image source={{ uri: item.photo }} style={styles.photo} />
-            <Text style={styles.photoTitle}>Лес</Text>
+            <Text style={styles.photoTitle}>{route.params.photoName}</Text>
             <View style={styles.commentsAndLocation}>
               <TouchableOpacity
                 style={styles.comments}
@@ -56,7 +56,7 @@ export default function Home({ route, navigation }) {
               >
                 <Feather name="map-pin" size={24} color="#BDBDBD" />
                 <Text style={styles.locationName}>
-                  Ivano-Frankivs'k Region, Ukraine
+                  {route.params.locationName}
                 </Text>
               </TouchableOpacity>
             </View>

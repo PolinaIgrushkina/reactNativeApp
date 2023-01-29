@@ -17,6 +17,8 @@ export default function CreateScreen({ navigation }) {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [location, setLocation] = useState(null);
+  const [photoName, setPhotoName] = useState(null);
+  const [locationName, setLocationName] = useState(null);
 
   const takePhoto = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
@@ -39,7 +41,7 @@ export default function CreateScreen({ navigation }) {
     const location = await Location.getCurrentPositionAsync({});
     setLocation(location);
 
-    navigation.navigate("Home", { photo, location });
+    navigation.navigate("Home", { photo, location, photoName, locationName });
   };
 
   return (
@@ -66,12 +68,16 @@ export default function CreateScreen({ navigation }) {
         placeholder="Название..."
         placeholderTextColor="#BDBDBD"
         style={styles.firstInput}
+        value={photoName}
+        onChangeText={(value) => setPhotoName(value)}
       ></TextInput>
       <View>
         <TextInput
           placeholder="Местность..."
           placeholderTextColor="#BDBDBD"
           style={styles.secondInput}
+          value={locationName}
+          onChangeText={(value) => setLocationName(value)}
         ></TextInput>
         <Feather
           name="map-pin"
