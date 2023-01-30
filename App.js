@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
 
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
 
 import { Provider } from "react-redux";
-
-import { useRoute } from "./router";
 import { store } from "./redux/store";
-import db from "./firebase/config";
+
+import Main from "./components/Main";
 
 const loadFonts = async () => {
   await Font.loadAsync({
@@ -20,11 +18,6 @@ const loadFonts = async () => {
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
-  const [user, setUser] = useState(null);
-
-  db.auth().onAuthStateChanged((user) => setUser(user));
-
-  const routing = useRoute(user);
 
   if (!isReady) {
     return (
@@ -38,7 +31,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <NavigationContainer>{routing}</NavigationContainer>
+      <Main />
     </Provider>
   );
 }
