@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 
 import { useRoute } from "./router";
 import { store } from "./redux/store";
+import db from "./firebase/config";
 
 const loadFonts = async () => {
   await Font.loadAsync({
@@ -19,7 +20,11 @@ const loadFonts = async () => {
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
-  const routing = useRoute(false);
+  const [user, setUser] = useState(null);
+
+  db.auth().onAuthStateChanged((user) => setUser(user));
+
+  const routing = useRoute(user);
 
   if (!isReady) {
     return (

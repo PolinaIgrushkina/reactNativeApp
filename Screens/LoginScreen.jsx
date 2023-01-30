@@ -13,6 +13,10 @@ import {
   Keyboard,
 } from "react-native";
 
+import { useDispatch } from "react-redux";
+
+import { authSignInUser } from "../redux/auth/authOperations";
+
 export default function LoginScreen({ navigation }) {
   const initialState = {
     email: "",
@@ -22,13 +26,15 @@ export default function LoginScreen({ navigation }) {
   const [state, setstate] = useState(initialState);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
+  const dispatch = useDispatch();
+
   const [isOnFocusSecond, setIsOnFocusSecond] = useState(false);
   const [isOnFocusThird, setIsOnFocusThird] = useState(false);
 
   const onRegistration = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
-    console.log(state);
+    dispatch(authSignInUser(state));
     setstate(initialState);
   };
 

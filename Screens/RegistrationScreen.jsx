@@ -39,6 +39,8 @@ export default function RegistrationScreen({ navigation }) {
 
     dispatch(authSignUpUser(state));
     setstate(initialState);
+
+    // navigation.navigate("Home");
   };
 
   const onScreenTouch = () => {
