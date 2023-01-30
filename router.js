@@ -13,11 +13,20 @@ import ProfileScreen from "./Screens/ProfileScreen";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
+import { useDispatch } from "react-redux";
+import { authSignOutUser } from "./redux/auth/authOperations";
+
 const AuthStack = createStackNavigator();
 const HomeStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
 export const useRoute = (isAuth) => {
+  const dispatch = useDispatch();
+
+  const signOut = () => {
+    dispatch(authSignOutUser());
+  };
+
   if (!isAuth) {
     return (
       <AuthStack.Navigator>
@@ -52,10 +61,7 @@ export const useRoute = (isAuth) => {
             letterSpacing: -0.408,
           },
           headerRight: () => (
-            <TouchableOpacity
-              style={{ marginRight: 16 }}
-              onPress={() => alert("Log out!")}
-            >
+            <TouchableOpacity style={{ marginRight: 16 }} onPress={signOut}>
               <Feather name="log-out" size={24} color="#BDBDBD" />
             </TouchableOpacity>
           ),
