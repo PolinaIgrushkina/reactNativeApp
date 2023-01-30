@@ -31,6 +31,12 @@ export default function LoginScreen({ navigation }) {
   const [isOnFocusSecond, setIsOnFocusSecond] = useState(false);
   const [isOnFocusThird, setIsOnFocusThird] = useState(false);
 
+  const [isPasswordSecure, setIsPasswordSecure] = useState(true);
+
+  const changeIsPasswordSecure = () => {
+    setIsPasswordSecure(!isPasswordSecure);
+  };
+
   const onRegistration = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
@@ -102,14 +108,19 @@ export default function LoginScreen({ navigation }) {
                 }
                 placeholder="Пароль"
                 placeholderTextColor="#BDBDBD"
-                secureTextEntry={true}
+                secureTextEntry={isPasswordSecure}
                 style={{
                   ...styles.input,
                   borderColor: isOnFocusThird ? "#FF6C00" : "#E8E8E8",
                 }}
               />
 
-              {/* <Text style={styles.swowPassword}>Показать</Text> */}
+              <Text
+                style={styles.swowPassword}
+                onPress={changeIsPasswordSecure}
+              >
+                {isPasswordSecure ? "Показать" : "Скрыть"}
+              </Text>
 
               <TouchableOpacity
                 activeOpacity={0.8}
@@ -179,6 +190,9 @@ const styles = StyleSheet.create({
     color: "#212121",
   },
   swowPassword: {
+    position: "absolute",
+    top: 152,
+    right: 32,
     color: "#1B4371",
     fontFamily: "Roboto-Regular",
     fontSize: 16,
