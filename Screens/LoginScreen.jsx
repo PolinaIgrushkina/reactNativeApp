@@ -129,7 +129,7 @@ export default function LoginScreen({ navigation }) {
               >
                 <Text
                   style={styles.btnTitle}
-                  onPress={() => navigation.navigate("Posts")}
+                  // onPress={() => navigation.navigate("Posts")}
                 >
                   Войти
                 </Text>

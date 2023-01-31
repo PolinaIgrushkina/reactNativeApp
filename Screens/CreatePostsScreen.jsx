@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   View,
   Text,
@@ -12,7 +13,7 @@ import { Camera } from "expo-camera";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import * as Location from "expo-location";
-import db from "../../firebase/config";
+import db from "../firebase/config";
 
 export default function CreateScreen({ navigation }) {
   const [camera, setCamera] = useState(null);
@@ -20,6 +21,8 @@ export default function CreateScreen({ navigation }) {
   const [location, setLocation] = useState(null);
   const [photoName, setPhotoName] = useState(null);
   const [locationName, setLocationName] = useState(null);
+
+  const { userId, login } = useSelector((state) => state.auth);
 
   const takePhoto = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
@@ -39,8 +42,11 @@ export default function CreateScreen({ navigation }) {
       return;
     }
 
-    const location = await Location.getCurrentPositionAsync({});
-    setLocation(location);
+    const currentLocation = await Location.getCurrentPositionAsync({});
+
+    setLocation(currentLocation);
+
+    uploadPostToServer();
 
     navigation.navigate("Home", { photo, location, photoName, locationName });
 
@@ -48,6 +54,19 @@ export default function CreateScreen({ navigation }) {
     setLocation(null);
     setPhotoName(null);
     setLocationName(null);
+  };
+
+  const uploadPostToServer = async () => {
+    const photo = await uploadPhotoToServer();
+
+    const createPost = await db.firestore().collection("posts").add({
+      photo,
+      photoName,
+      location,
+      locationName,
+      userId,
+      login,
+    });
   };
 
   const uploadPhotoToServer = async () => {
@@ -63,6 +82,8 @@ export default function CreateScreen({ navigation }) {
       .ref("postImage")
       .child(uniquePostId)
       .getDownloadURL();
+
+    return processedPhoto;
   };
 
   return (
