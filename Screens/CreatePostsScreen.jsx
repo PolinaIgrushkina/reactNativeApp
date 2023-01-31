@@ -12,6 +12,7 @@ import { Camera } from "expo-camera";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import * as Location from "expo-location";
+import db from "../../firebase/config";
 
 export default function CreateScreen({ navigation }) {
   const [camera, setCamera] = useState(null);
@@ -47,6 +48,21 @@ export default function CreateScreen({ navigation }) {
     setLocation(null);
     setPhotoName(null);
     setLocationName(null);
+  };
+
+  const uploadPhotoToServer = async () => {
+    const response = await fetch(photo);
+    const file = await response.blob();
+
+    const uniquePostId = Date.now().toString();
+
+    await db.storage().ref(`postImage/${uniquePostId}`).put(file);
+
+    const processedPhoto = await db
+      .storage()
+      .ref("postImage")
+      .child(uniquePostId)
+      .getDownloadURL();
   };
 
   return (
