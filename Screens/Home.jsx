@@ -8,21 +8,25 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
+import db from "../firebase/config";
 
 import { Feather } from "@expo/vector-icons";
 
-export default function Home({ route, navigation }) {
+export default function Home({ navigation }) {
   const [posts, setPosts] = useState([]);
-  const [location, setLocation] = useState(null);
-  const photoName = route.params?.photoName;
-  const locationName = route.params?.locationName;
+
+  const getAllPost = async () => {
+    await db
+      .firestore()
+      .collection("posts")
+      .onSnapshot((data) =>
+        setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+      );
+  };
 
   useEffect(() => {
-    if (route.params) {
-      setPosts((prevState) => [...prevState, route.params]);
-      setLocation(route.params.location);
-    }
-  }, [route.params]);
+    getAllPost();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -43,11 +47,13 @@ export default function Home({ route, navigation }) {
         renderItem={({ item }) => (
           <View style={styles.post}>
             <Image source={{ uri: item.photo }} style={styles.photo} />
-            <Text style={styles.photoTitle}>{photoName}</Text>
+            <Text style={styles.photoTitle}>{item.photoName}</Text>
             <View style={styles.commentsAndLocation}>
               <TouchableOpacity
                 style={styles.comments}
-                onPress={() => navigation.navigate("Comments")}
+                onPress={() =>
+                  navigation.navigate("Comments", { postId: item.id })
+                }
               >
                 <Feather name="message-circle" size={24} color="#BDBDBD" />
                 <Text style={styles.commentsAmount}>0</Text>
@@ -55,11 +61,14 @@ export default function Home({ route, navigation }) {
               <TouchableOpacity
                 style={styles.location}
                 onPress={() =>
-                  navigation.navigate("Map", { location, photoName })
+                  navigation.navigate("Map", {
+                    location: item.location,
+                    photoName: item.photoName,
+                  })
                 }
               >
                 <Feather name="map-pin" size={24} color="#BDBDBD" />
-                <Text style={styles.locationName}>{locationName}</Text>
+                <Text style={styles.locationName}>{item.locationName}</Text>
               </TouchableOpacity>
             </View>
           </View>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
   View,
@@ -24,6 +24,21 @@ export default function CreateScreen({ navigation }) {
 
   const { userId, login } = useSelector((state) => state.auth);
 
+  useEffect(() => {
+    (async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+        return;
+      }
+
+      const currentLocation = await Location.getCurrentPositionAsync({});
+
+      setLocation(currentLocation);
+    })();
+  }, []);
+
   const takePhoto = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
 
@@ -36,16 +51,6 @@ export default function CreateScreen({ navigation }) {
   };
 
   const sendPhoto = async () => {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      console.log("Permission to access location was denied");
-      return;
-    }
-
-    const currentLocation = await Location.getCurrentPositionAsync({});
-
-    setLocation(currentLocation);
-
     uploadPostToServer();
 
     navigation.navigate("Home", { photo, location, photoName, locationName });
