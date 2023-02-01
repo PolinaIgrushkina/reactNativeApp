@@ -52,7 +52,10 @@ export default function Home({ navigation }) {
               <TouchableOpacity
                 style={styles.comments}
                 onPress={() =>
-                  navigation.navigate("Comments", { postId: item.id })
+                  navigation.navigate("Comments", {
+                    postId: item.id,
+                    photo: item.photo,
+                  })
                 }
               >
                 <Feather name="message-circle" size={24} color="#BDBDBD" />
@@ -112,10 +115,6 @@ const styles = StyleSheet.create({
     fontSize: 11,
     lineHeight: 13,
     color: "rgba(33, 33, 33, 0.8)",
-  },
-  gallery: {
-    display: "flex",
-    flexDirection: "column",
   },
   post: {
     height: 299,
