@@ -8,12 +8,15 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
+import { useSelector } from "react-redux";
 import db from "../firebase/config";
 
 import { Feather } from "@expo/vector-icons";
 
 export default function Home({ navigation }) {
   const [posts, setPosts] = useState([]);
+
+  const { login } = useSelector((state) => state.auth);
 
   const getAllPost = async () => {
     await db
@@ -36,7 +39,7 @@ export default function Home({ navigation }) {
           style={styles.avatar}
         />
         <View style={styles.userNameAndEmail}>
-          <Text style={styles.name}>Natali Romanova</Text>
+          <Text style={styles.name}>{login}</Text>
           <Text style={styles.email}>email@example.com</Text>
         </View>
       </View>
