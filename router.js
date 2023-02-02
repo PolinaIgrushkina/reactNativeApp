@@ -85,10 +85,7 @@ export const useRoute = (isAuth) => {
             letterSpacing: -0.408,
           },
           headerLeft: () => (
-            <TouchableOpacity
-              style={{ marginLeft: 16 }}
-              // onPress={() => navigation.navigate("Posts")}
-            >
+            <TouchableOpacity style={{ marginLeft: 16 }}>
               <Feather
                 name="arrow-left"
                 size={24}

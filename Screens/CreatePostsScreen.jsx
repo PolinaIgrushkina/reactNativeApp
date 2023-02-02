@@ -15,6 +15,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import db from "../firebase/config";
+import ToastManager, { Toast } from "toastify-react-native";
 
 export default function CreateScreen({ navigation }) {
   const [camera, setCamera] = useState(null);
@@ -62,6 +63,10 @@ export default function CreateScreen({ navigation }) {
     setLocationName(null);
   };
 
+  const alert = () => {
+    Toast.error("Заполните все поля.");
+  };
+
   const uploadPostToServer = async () => {
     const photo = await uploadPhotoToServer();
 
@@ -100,6 +105,7 @@ export default function CreateScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <ToastManager />
       <Camera style={styles.camera} ref={setCamera}>
         {photo && (
           <View style={styles.takePhotoContainer}>
@@ -141,7 +147,7 @@ export default function CreateScreen({ navigation }) {
         />
       </View>
       <TouchableOpacity
-        onPress={sendPhoto}
+        onPress={photo && photoName && locationName ? sendPhoto : alert}
         activeOpacity={0.8}
         style={photo && photoName && locationName ? styles.btn : styles.disable}
       >

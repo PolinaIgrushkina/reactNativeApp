@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 import db from "../firebase/config";
 import { Feather } from "@expo/vector-icons";
 
+import { authSignOutUser } from "../redux/auth/authOperations";
+
 export default function ProfileScreen({ navigation }) {
   const dispatch = useDispatch();
   const [userPosts, setUserPosts] = useState([]);
@@ -33,6 +35,10 @@ export default function ProfileScreen({ navigation }) {
       );
   };
 
+  const signOut = () => {
+    dispatch(authSignOutUser());
+  };
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -44,6 +50,9 @@ export default function ProfileScreen({ navigation }) {
             source={require("../assets/images/user.png")}
             style={styles.avatar}
           />
+          <TouchableOpacity style={styles.logOut} onPress={signOut}>
+            <Feather name="log-out" size={24} color="#BDBDBD" />
+          </TouchableOpacity>
           <Text style={styles.login}>{login}</Text>
 
           <FlatList
@@ -107,6 +116,11 @@ const styles = StyleSheet.create({
     paddingBottom: 43,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
+  },
+  logOut: {
+    position: "absolute",
+    right: 16,
+    top: 22,
   },
   avatar: {
     position: "absolute",

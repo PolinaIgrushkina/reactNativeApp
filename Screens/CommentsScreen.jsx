@@ -67,59 +67,54 @@ export default function CommentsScreen({ route }) {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={onScreenTouch}>
-      <View style={styles.container}>
-        <Image source={{ uri: photo }} style={styles.photo} />
+    <View style={styles.container}>
+      <Image source={{ uri: photo }} style={styles.photo} />
 
-        <View style={styles.commentsContainer}>
-          <FlatList
-            style={styles.commentsContainer}
-            data={allComments}
-            keyExtractor={(item, indx) => indx.toString()}
-            renderItem={({ item }) => (
-              <View style={styles.commentContainer}>
-                <Image
-                  source={require("../assets/images/user.png")}
-                  style={styles.avatar}
-                />
-                <View style={styles.comment}>
-                  <Text style={styles.commentText}>{item.comment}</Text>
-                  <View style={styles.dateAndTime}>
-                    <View style={styles.dateTextContainer}>
-                      <Text style={styles.dateText}>
-                        {moment(item.date).format("D MMM, YYYY")}
-                      </Text>
-                    </View>
-                    <Text style={styles.timeText}>
-                      {moment(item.date).format("hh:mm")}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            )}
-          />
-        </View>
-
-        <KeyboardAvoidingView
-          behavior={Platform.OS == "ios" ? "padding" : "height"}
-        >
-          <View style={styles.inputContainer}>
-            <TextInput
-              value={comment}
-              onChangeText={(value) => setComment(value)}
-              style={styles.input}
-              onFocus={onFocusInput}
-              placeholder="Комментировать..."
-              placeholderTextColor="#BDBDBD"
+      <FlatList
+        data={allComments}
+        keyExtractor={(item, indx) => indx.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.commentContainer}>
+            <Image
+              source={require("../assets/images/user.png")}
+              style={styles.avatar}
             />
-
-            <TouchableOpacity onPress={createComment} style={styles.sendBtn}>
-              <AntDesign name="arrowup" size={24} color="#fff" />
-            </TouchableOpacity>
+            <View style={styles.comment}>
+              <Text style={styles.commentText}>{item.comment}</Text>
+              <View style={styles.dateAndTime}>
+                <View style={styles.dateTextContainer}>
+                  <Text style={styles.dateText}>
+                    {moment(item.date).format("D MMM, YYYY")}
+                  </Text>
+                </View>
+                <Text style={styles.timeText}>
+                  {moment(item.date).format("hh:mm")}
+                </Text>
+              </View>
+            </View>
           </View>
-        </KeyboardAvoidingView>
-      </View>
-    </TouchableWithoutFeedback>
+        )}
+      />
+
+      <KeyboardAvoidingView
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+      >
+        <View style={styles.inputContainer}>
+          <TextInput
+            value={comment}
+            onChangeText={(value) => setComment(value)}
+            style={styles.input}
+            onFocus={onFocusInput}
+            placeholder="Комментировать..."
+            placeholderTextColor="#BDBDBD"
+          />
+
+          <TouchableOpacity onPress={createComment} style={styles.sendBtn}>
+            <AntDesign name="arrowup" size={24} color="#fff" />
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </View>
   );
 }
 
