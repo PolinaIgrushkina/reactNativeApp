@@ -11,7 +11,9 @@ import {
   TextInput,
   TouchableOpacity,
   Keyboard,
+  Dimensions,
 } from "react-native";
+import ToastManager from "toastify-react-native";
 
 import { useDispatch } from "react-redux";
 
@@ -70,6 +72,7 @@ export default function LoginScreen({ navigation }) {
           style={styles.image}
           source={require("../assets/images/bg-photo.jpg")}
         >
+          <ToastManager style={styles.toast} />
           <View
             style={{
               ...Platform.select({
@@ -114,27 +117,19 @@ export default function LoginScreen({ navigation }) {
                   borderColor: isOnFocusThird ? "#FF6C00" : "#E8E8E8",
                 }}
               />
-
               <Text
                 style={styles.swowPassword}
                 onPress={changeIsPasswordSecure}
               >
                 {isPasswordSecure ? "Показать" : "Скрыть"}
               </Text>
-
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={styles.btn}
                 onPress={onRegistration}
               >
-                <Text
-                  style={styles.btnTitle}
-                  // onPress={() => navigation.navigate("Posts")}
-                >
-                  Войти
-                </Text>
+                <Text style={styles.btnTitle}>Войти</Text>
               </TouchableOpacity>
-
               <TouchableOpacity
                 onPress={() => navigation.navigate("Registration")}
               >
@@ -220,5 +215,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     textAlign: "center",
+  },
+  toast: {
+    width: Dimensions.get("window").width - 32,
   },
 });

@@ -11,7 +11,9 @@ import {
   TextInput,
   TouchableOpacity,
   Keyboard,
+  Dimensions,
 } from "react-native";
+import ToastManager from "toastify-react-native";
 
 import { useDispatch } from "react-redux";
 
@@ -45,8 +47,6 @@ export default function RegistrationScreen({ navigation }) {
 
     dispatch(authSignUpUser(state));
     setstate(initialState);
-
-    // navigation.navigate("Home");
   };
 
   const onScreenTouch = () => {
@@ -85,6 +85,7 @@ export default function RegistrationScreen({ navigation }) {
           style={styles.image}
           source={require("../assets/images/bg-photo.jpg")}
         >
+          <ToastManager style={styles.toast} />
           <View
             style={{
               ...Platform.select({
@@ -240,5 +241,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     textAlign: "center",
+  },
+  toast: {
+    width: Dimensions.get("window").width - 32,
   },
 });
