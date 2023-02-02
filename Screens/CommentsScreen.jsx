@@ -75,7 +75,6 @@ export default function CommentsScreen({ route }) {
           <FlatList
             style={styles.commentsContainer}
             data={allComments}
-            // keyExtractor={(item) => item.id}
             keyExtractor={(item, indx) => indx.toString()}
             renderItem={({ item }) => (
               <View style={styles.commentContainer}>

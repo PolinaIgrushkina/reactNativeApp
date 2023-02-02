@@ -3,22 +3,24 @@ import { authSlice } from "./authSlice";
 import { Toast } from "toastify-react-native";
 
 export const authSignUpUser =
-  ({ login, email, password }) =>
+  ({ login, mail, password }) =>
   async (dispatch, getState) => {
     try {
-      await db.auth().createUserWithEmailAndPassword(email, password);
+      await db.auth().createUserWithEmailAndPassword(mail, password);
 
       const user = await db.auth().currentUser;
 
       await user.updateProfile({
         displayName: login,
+        email: mail,
       });
 
-      const { displayName, uid } = await db.auth().currentUser;
+      const { displayName, uid, email } = await db.auth().currentUser;
 
       const userUpdateProfile = {
         login: displayName,
         userId: uid,
+        email: email,
       };
 
       dispatch(authSlice.actions.updateUserProfile(userUpdateProfile));

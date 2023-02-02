@@ -22,7 +22,7 @@ import { authSignUpUser } from "../redux/auth/authOperations";
 export default function RegistrationScreen({ navigation }) {
   const initialState = {
     login: "",
-    email: "",
+    mail: "",
     password: "",
   };
 
@@ -44,7 +44,6 @@ export default function RegistrationScreen({ navigation }) {
   const onRegistration = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
-
     dispatch(authSignUpUser(state));
     setstate(initialState);
   };
@@ -117,10 +116,10 @@ export default function RegistrationScreen({ navigation }) {
                 }}
               />
               <TextInput
-                value={state.email}
+                value={state.mail}
                 onFocus={onFocusSecondInput}
                 onChangeText={(value) =>
-                  setstate((prevState) => ({ ...prevState, email: value }))
+                  setstate((prevState) => ({ ...prevState, mail: value }))
                 }
                 placeholder="Адрес электронной почты"
                 placeholderTextColor="#BDBDBD"
