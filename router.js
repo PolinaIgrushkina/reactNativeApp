@@ -48,7 +48,11 @@ export const useRoute = (isAuth) => {
     );
   }
   return (
-    <MainTab.Navigator>
+    <MainTab.Navigator
+      screenOptions={{
+        tabBarStyle: { paddingHorizontal: 81 },
+      }}
+    >
       <MainTab.Screen
         options={{
           tabBarShowLabel: false,
