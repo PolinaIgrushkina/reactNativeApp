@@ -12,6 +12,7 @@ import {
 import { Camera } from "expo-camera";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import db from "../firebase/config";
 
@@ -91,6 +92,12 @@ export default function CreateScreen({ navigation }) {
     return processedPhoto;
   };
 
+  const clearAll = () => {
+    setPhoto(null);
+    setPhotoName(null);
+    setLocationName(null);
+  };
+
   return (
     <View style={styles.container}>
       <Camera style={styles.camera} ref={setCamera}>
@@ -136,10 +143,28 @@ export default function CreateScreen({ navigation }) {
       <TouchableOpacity
         onPress={sendPhoto}
         activeOpacity={0.8}
-        style={styles.btn}
+        style={photo && photoName && locationName ? styles.btn : styles.disable}
       >
-        <Text style={styles.btnTitle}>Опубликовать</Text>
+        <Text
+          style={
+            photo && photoName && locationName
+              ? styles.btnTitle
+              : styles.disableTitle
+          }
+        >
+          Опубликовать
+        </Text>
       </TouchableOpacity>
+
+      <View style={styles.deleteContainer}>
+        <TouchableOpacity
+          onPress={clearAll}
+          activeOpacity={0.8}
+          style={styles.delete}
+        >
+          <AntDesign name="delete" size={24} color="#BDBDBD" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -214,8 +239,18 @@ const styles = StyleSheet.create({
   },
   btn: {
     marginTop: 32,
+    marginBottom: 120,
     height: 51,
     backgroundColor: "#ff6c00",
+    borderRadius: 100,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  disable: {
+    marginTop: 32,
+    marginBottom: 120,
+    height: 51,
+    backgroundColor: "#F6F6F6",
     borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
@@ -225,5 +260,22 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,
+  },
+  disableTitle: {
+    color: "#BDBDBD",
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
+    lineHeight: 19,
+  },
+  deleteContainer: {
+    alignItems: "center",
+  },
+  delete: {
+    width: 70,
+    height: 40,
+    backgroundColor: "#F6F6F6",
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

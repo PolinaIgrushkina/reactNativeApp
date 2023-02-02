@@ -74,6 +74,7 @@ export const useRoute = (isAuth) => {
       />
       <MainTab.Screen
         options={{
+          tabBarStyle: { display: "none" },
           tabBarShowLabel: false,
           title: "Создать публикацию",
           headerTitleStyle: {
