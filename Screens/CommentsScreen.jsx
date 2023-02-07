@@ -33,7 +33,7 @@ export default function CommentsScreen({ route }) {
   const { login } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    getAllPosts();
+    getAllComments();
   }, []);
 
   const createComment = async () => {
@@ -47,7 +47,7 @@ export default function CommentsScreen({ route }) {
     setComment("");
   };
 
-  const getAllPosts = async () => {
+  const getAllComments = async () => {
     db.firestore()
       .collection("posts")
       .doc(postId)
