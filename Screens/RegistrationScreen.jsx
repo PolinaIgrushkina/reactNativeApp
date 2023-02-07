@@ -41,6 +41,13 @@ export default function RegistrationScreen({ navigation }) {
     setIsPasswordSecure(!isPasswordSecure);
   };
 
+  const onReturn = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+    setIsOnFocusSecond(false);
+    setIsOnFocusThird(false);
+  };
+
   const onRegistration = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
@@ -103,6 +110,7 @@ export default function RegistrationScreen({ navigation }) {
             >
               <Text style={styles.formTitle}>Регистрация</Text>
               <TextInput
+                onSubmitEditing={onReturn}
                 value={state.login}
                 onFocus={onFocusFirstInput}
                 onChangeText={(value) =>
@@ -116,6 +124,7 @@ export default function RegistrationScreen({ navigation }) {
                 }}
               />
               <TextInput
+                onSubmitEditing={onReturn}
                 value={state.mail}
                 onFocus={onFocusSecondInput}
                 onChangeText={(value) =>
@@ -129,6 +138,7 @@ export default function RegistrationScreen({ navigation }) {
                 }}
               />
               <TextInput
+                onSubmitEditing={onReturn}
                 value={state.password}
                 onFocus={onFocusThirdInput}
                 onChangeText={(value) =>

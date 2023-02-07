@@ -6,7 +6,7 @@ import MapScreen from "./MapScreen";
 
 const NestedScreen = createStackNavigator();
 
-export default function PostsScreen() {
+export default function PostsScreen({ navigation }) {
   return (
     <NestedScreen.Navigator>
       <NestedScreen.Screen
@@ -16,8 +16,20 @@ export default function PostsScreen() {
           headerShown: false,
         }}
       />
-      <NestedScreen.Screen name="Comments" component={CommentsScreen} />
-      <NestedScreen.Screen name="Map" component={MapScreen} />
+      <NestedScreen.Screen
+        name="Comments"
+        component={CommentsScreen}
+        options={{
+          title: "Комментарии",
+        }}
+      />
+      <NestedScreen.Screen
+        name="Map"
+        component={MapScreen}
+        options={{
+          title: "Карта",
+        }}
+      />
     </NestedScreen.Navigator>
   );
 }

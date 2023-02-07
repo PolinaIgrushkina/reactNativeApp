@@ -39,6 +39,13 @@ export default function LoginScreen({ navigation }) {
     setIsPasswordSecure(!isPasswordSecure);
   };
 
+  const onReturn = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+    setIsOnFocusSecond(false);
+    setIsOnFocusThird(false);
+  };
+
   const onRegistration = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
@@ -91,6 +98,7 @@ export default function LoginScreen({ navigation }) {
             >
               <Text style={styles.formTitle}>Войти</Text>
               <TextInput
+                onSubmitEditing={onReturn}
                 value={state.email}
                 onFocus={onFocusSecondInput}
                 onChangeText={(value) =>
@@ -104,6 +112,7 @@ export default function LoginScreen({ navigation }) {
                 }}
               />
               <TextInput
+                onSubmitEditing={onReturn}
                 value={state.password}
                 onFocus={onFocusThirdInput}
                 onChangeText={(value) =>
