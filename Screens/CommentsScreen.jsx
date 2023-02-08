@@ -21,40 +21,33 @@ import { AntDesign } from "@expo/vector-icons";
 import db from "../firebase/config";
 
 export default function CommentsScreen({ route }) {
-  const { postId, photo } = route.params;
+  const { postId, photo, comments } = route.params;
   const currentDate = new Date().toString();
 
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   const [comment, setComment] = useState("");
 
-  const [allComments, setAllComments] = useState([]);
+  const [allComments, setAllComments] = useState(comments ? comments : []);
 
   const { login, avatar } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    getAllComments();
-  }, []);
+  useEffect(async () => {
+    const data = await firestore.collection("posts").doc(postId).get();
 
-  const createComment = async () => {
+    setAllComments(data.data().comments);
+  }, [allComments]);
+
+  const addNewComment = async () => {
     await db
       .firestore()
       .collection("posts")
       .doc(postId)
-      .collection("comments")
-      .add({ comment, login, date: currentDate, avatar });
+      .update({
+        comments: [...comments, { comment, login, date: currentDate, avatar }],
+      });
 
     setComment("");
-  };
-
-  const getAllComments = async () => {
-    db.firestore()
-      .collection("posts")
-      .doc(postId)
-      .collection("comments")
-      .onSnapshot((data) =>
-        setAllComments(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-      );
   };
 
   const onScreenTouch = () => {
@@ -106,7 +99,7 @@ export default function CommentsScreen({ route }) {
             placeholderTextColor="#BDBDBD"
           />
 
-          <TouchableOpacity onPress={createComment} style={styles.sendBtn}>
+          <TouchableOpacity onPress={addNewComment} style={styles.sendBtn}>
             <AntDesign name="arrowup" size={24} color="#fff" />
           </TouchableOpacity>
         </View>

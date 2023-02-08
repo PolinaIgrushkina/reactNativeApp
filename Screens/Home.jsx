@@ -55,11 +55,14 @@ export default function Home({ navigation }) {
                   navigation.navigate("Comments", {
                     postId: item.id,
                     photo: item.photo,
+                    comments: item.comments,
                   })
                 }
               >
                 <Feather name="message-circle" size={24} color="#BDBDBD" />
-                <Text style={styles.commentsAmount}>0</Text>
+                <Text style={styles.commentsAmount}>
+                  {item.comments.length}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.location}
