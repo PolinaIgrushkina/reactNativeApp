@@ -19,7 +19,7 @@ import { authSignOutUser } from "../redux/auth/authOperations";
 export default function ProfileScreen({ navigation }) {
   const dispatch = useDispatch();
   const [userPosts, setUserPosts] = useState([]);
-  const { userId, login } = useSelector((state) => state.auth);
+  const { userId, login, avatar } = useSelector((state) => state.auth);
 
   useEffect(() => {
     getUserPosts();
@@ -46,10 +46,7 @@ export default function ProfileScreen({ navigation }) {
         source={require("../assets/images/bg-photo.jpg")}
       >
         <View style={styles.gallery}>
-          <Image
-            source={require("../assets/images/user.png")}
-            style={styles.avatar}
-          />
+          <Image source={{ uri: avatar }} style={styles.avatar} />
           <TouchableOpacity style={styles.logOut} onPress={signOut}>
             <Feather name="log-out" size={24} color="#BDBDBD" />
           </TouchableOpacity>

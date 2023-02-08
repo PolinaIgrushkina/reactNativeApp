@@ -22,8 +22,6 @@ import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
 import { authSignUpUser } from "../redux/auth/authOperations";
-import { clearLogEntriesAsync } from "expo-updates";
-// import Avatar from "../components/Avatar";
 
 export default function RegistrationScreen({ navigation }) {
   const initialState = {

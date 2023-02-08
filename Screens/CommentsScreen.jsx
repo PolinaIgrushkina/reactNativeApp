@@ -30,7 +30,7 @@ export default function CommentsScreen({ route }) {
 
   const [allComments, setAllComments] = useState([]);
 
-  const { login } = useSelector((state) => state.auth);
+  const { login, avatar } = useSelector((state) => state.auth);
 
   useEffect(() => {
     getAllComments();
@@ -42,7 +42,7 @@ export default function CommentsScreen({ route }) {
       .collection("posts")
       .doc(postId)
       .collection("comments")
-      .add({ comment, login, date: currentDate });
+      .add({ comment, login, date: currentDate, avatar });
 
     setComment("");
   };
@@ -75,10 +75,7 @@ export default function CommentsScreen({ route }) {
         keyExtractor={(item, indx) => indx.toString()}
         renderItem={({ item }) => (
           <View style={styles.commentContainer}>
-            <Image
-              source={require("../assets/images/user.png")}
-              style={styles.avatar}
-            />
+            <Image source={{ uri: item.avatar }} style={styles.avatar} />
             <View style={styles.comment}>
               <Text style={styles.commentText}>{item.comment}</Text>
               <View style={styles.dateAndTime}>
@@ -144,6 +141,7 @@ const styles = StyleSheet.create({
     height: 28,
     width: 28,
     borderRadius: "50%",
+    marginRight: 16,
   },
   comment: {
     width: 299,

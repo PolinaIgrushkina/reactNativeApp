@@ -3,7 +3,7 @@ import { authSlice } from "./authSlice";
 import { Toast } from "toastify-react-native";
 
 export const authSignUpUser =
-  ({ login, mail, password }) =>
+  ({ login, mail, password, avatar }) =>
   async (dispatch, getState) => {
     try {
       await db.auth().createUserWithEmailAndPassword(mail, password);
@@ -13,14 +13,18 @@ export const authSignUpUser =
       await user.updateProfile({
         displayName: login,
         email: mail,
+        photoURL: avatar,
       });
 
-      const { displayName, uid, email } = await db.auth().currentUser;
+      console.log(user);
+
+      const { displayName, uid, email, photoURL } = await db.auth().currentUser;
 
       const userUpdateProfile = {
         login: displayName,
         userId: uid,
         email: email,
+        avatar: photoURL,
       };
 
       dispatch(authSlice.actions.updateUserProfile(userUpdateProfile));
@@ -70,6 +74,7 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
         login: user.displayName,
         userId: user.uid,
         email: user.email,
+        avatar: user.photoURL,
       };
 
       dispatch(authSlice.actions.authStateChange({ stateChange: true }));

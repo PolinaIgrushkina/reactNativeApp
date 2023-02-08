@@ -16,7 +16,7 @@ import { Feather } from "@expo/vector-icons";
 export default function Home({ navigation }) {
   const [posts, setPosts] = useState([]);
 
-  const { login, email } = useSelector((state) => state.auth);
+  const { login, email, avatar } = useSelector((state) => state.auth);
 
   const getAllPost = async () => {
     await db
@@ -34,10 +34,7 @@ export default function Home({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
-        <Image
-          source={require("../assets/images/user.png")}
-          style={styles.avatar}
-        />
+        <Image source={{ uri: avatar }} style={styles.avatar} />
         <View style={styles.userNameAndEmail}>
           <Text style={styles.name}>{login}</Text>
           <Text style={styles.email}>{email}</Text>
