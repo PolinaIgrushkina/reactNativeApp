@@ -55,20 +55,8 @@ export const useRoute = (isAuth) => {
     >
       <MainTab.Screen
         options={{
+          headerShown: false,
           tabBarShowLabel: false,
-          title: "Публикации",
-          headerTitleStyle: {
-            color: "#212121",
-            fontFamily: "Roboto-Medium",
-            fontSize: 17,
-            lineHeight: 22,
-            letterSpacing: -0.408,
-          },
-          headerRight: () => (
-            <TouchableOpacity style={{ marginRight: 16 }} onPress={signOut}>
-              <Feather name="log-out" size={24} color="#BDBDBD" />
-            </TouchableOpacity>
-          ),
           tabBarIcon: ({ focused, size, color }) => (
             <Feather name="grid" size={24} color="rgba(33, 33, 33, 0.8)" />
           ),
