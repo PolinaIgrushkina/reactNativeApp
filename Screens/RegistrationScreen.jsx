@@ -12,18 +12,25 @@ import {
   TouchableOpacity,
   Keyboard,
   Dimensions,
+  Image,
 } from "react-native";
 import ToastManager from "toastify-react-native";
 
 import { useDispatch } from "react-redux";
+import * as ImagePicker from "expo-image-picker";
+import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 import { authSignUpUser } from "../redux/auth/authOperations";
+import { clearLogEntriesAsync } from "expo-updates";
+// import Avatar from "../components/Avatar";
 
 export default function RegistrationScreen({ navigation }) {
   const initialState = {
     login: "",
     mail: "",
     password: "",
+    avatar: null,
   };
 
   const [state, setstate] = useState(initialState);
@@ -52,6 +59,7 @@ export default function RegistrationScreen({ navigation }) {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     dispatch(authSignUpUser(state));
+
     setstate(initialState);
   };
 
@@ -84,6 +92,19 @@ export default function RegistrationScreen({ navigation }) {
     setIsOnFocusSecond(false);
   };
 
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setstate((prevState) => ({ ...prevState, avatar: result.assets[0].uri }));
+    }
+  };
+
   return (
     <TouchableWithoutFeedback onPress={onScreenTouch}>
       <View style={styles.container}>
@@ -108,6 +129,38 @@ export default function RegistrationScreen({ navigation }) {
             <KeyboardAvoidingView
               behavior={Platform.OS == "ios" ? "padding" : "height"}
             >
+              <View style={{ position: "absolute", top: -55, left: 128 }}>
+                <View style={styles.avatar}>
+                  {state.avatar ? (
+                    <View>
+                      <TouchableOpacity
+                        onPress={() =>
+                          setstate((prevState) => ({
+                            ...prevState,
+                            avatar: null,
+                          }))
+                        }
+                        style={styles.icon}
+                      >
+                        <Ionicons
+                          name="close-circle-outline"
+                          size={25}
+                          color="#E8E8E8"
+                        />
+                      </TouchableOpacity>
+                      <Image
+                        source={{ uri: state.avatar }}
+                        style={styles.avatarImage}
+                      />
+                    </View>
+                  ) : (
+                    <TouchableOpacity onPress={pickImage} style={styles.icon}>
+                      <AntDesign name="pluscircleo" size={25} color="#FF6C00" />
+                    </TouchableOpacity>
+                  )}
+                </View>
+              </View>
+
               <Text style={styles.formTitle}>Регистрация</Text>
               <TextInput
                 onSubmitEditing={onReturn}
@@ -191,15 +244,34 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   form: {
+    position: "relative",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     height: 549,
     backgroundColor: "#fff",
-    paddingTop: 92,
+  },
+  avatar: {
+    width: 120,
+    height: 120,
+    borderRadius: 16,
+    backgroundColor: "#F6F6F6",
+    position: "relative",
+  },
+  icon: {
+    position: "absolute",
+    right: -12,
+    bottom: 14,
+    zIndex: 100,
+  },
+  avatarImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 16,
   },
   formTitle: {
     marginHorizontal: 16,
     marginBottom: 16,
+    marginTop: 97,
     fontSize: 30,
     lineHeight: 35,
     letterSpacing: 0.01,
@@ -221,7 +293,7 @@ const styles = StyleSheet.create({
   },
   swowPassword: {
     position: "absolute",
-    top: 222,
+    top: 320,
     right: 32,
     color: "#1B4371",
     fontFamily: "Roboto-Regular",
