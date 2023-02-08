@@ -13,6 +13,8 @@ import ProfileScreen from "./Screens/ProfileScreen";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
+import { useNavigation } from "@react-navigation/native";
+
 import { useDispatch } from "react-redux";
 import { authSignOutUser } from "./redux/auth/authOperations";
 
@@ -21,6 +23,7 @@ const HomeStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
 export const useRoute = (isAuth) => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const signOut = () => {
@@ -49,6 +52,7 @@ export const useRoute = (isAuth) => {
   }
   return (
     <MainTab.Navigator
+      backBehavior="history"
       screenOptions={{
         tabBarStyle: { paddingHorizontal: 81 },
       }}
@@ -79,7 +83,7 @@ export const useRoute = (isAuth) => {
           headerLeft: () => (
             <TouchableOpacity
               style={{ marginLeft: 16 }}
-              // onPress={() => navigation.navigate("Posts")}
+              onPress={() => navigation.goBack()}
             >
               <Feather
                 name="arrow-left"

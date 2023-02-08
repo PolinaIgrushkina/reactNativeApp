@@ -20,7 +20,7 @@ export default function PostsScreen({ navigation }) {
   };
 
   return (
-    <NestedScreen.Navigator>
+    <NestedScreen.Navigator backBehavior="history">
       <NestedScreen.Screen
         name="Home"
         component={Home}
@@ -45,6 +45,18 @@ export default function PostsScreen({ navigation }) {
         component={CommentsScreen}
         options={{
           title: "Комментарии",
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{ marginLeft: 16 }}
+              onPress={() => navigation.goBack()}
+            >
+              <Feather
+                name="arrow-left"
+                size={24}
+                color="rgba(33, 33, 33, 0.8)"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
       <NestedScreen.Screen
@@ -52,6 +64,18 @@ export default function PostsScreen({ navigation }) {
         component={MapScreen}
         options={{
           title: "Карта",
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{ marginLeft: 16 }}
+              onPress={() => navigation.goBack()}
+            >
+              <Feather
+                name="arrow-left"
+                size={24}
+                color="rgba(33, 33, 33, 0.8)"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
     </NestedScreen.Navigator>
