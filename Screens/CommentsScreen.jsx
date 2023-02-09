@@ -59,7 +59,7 @@ export default function CommentsScreen({ route }) {
     setComment("");
   };
 
-  const onScreenTouch = () => {
+  const onReturn = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
   };
@@ -98,8 +98,18 @@ export default function CommentsScreen({ route }) {
       <KeyboardAvoidingView
         behavior={Platform.OS == "ios" ? "padding" : "height"}
       >
-        <View style={styles.inputContainer}>
+        <View
+          style={{
+            ...Platform.select({
+              ios: {
+                ...styles.inputContainer,
+                marginBottom: isShowKeyboard ? 120 : 0,
+              },
+            }),
+          }}
+        >
           <TextInput
+            onSubmitEditing={onReturn}
             value={comment}
             onChangeText={(value) => setComment(value)}
             style={styles.input}
