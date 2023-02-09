@@ -55,7 +55,6 @@ export default function Home({ navigation }) {
                   navigation.navigate("Comments", {
                     postId: item.id,
                     photo: item.photo,
-                    comments: item.comments,
                   })
                 }
               >

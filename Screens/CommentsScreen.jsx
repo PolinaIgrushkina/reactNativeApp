@@ -21,22 +21,26 @@ import { AntDesign } from "@expo/vector-icons";
 import db from "../firebase/config";
 
 export default function CommentsScreen({ route }) {
-  const { postId, photo, comments } = route.params;
+  const { postId, photo } = route.params;
   const currentDate = new Date().toString();
 
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   const [comment, setComment] = useState("");
 
-  const [allComments, setAllComments] = useState(comments ? comments : []);
+  const [allComments, setAllComments] = useState([]);
 
   const { login, avatar } = useSelector((state) => state.auth);
 
   useEffect(async () => {
-    const data = await firestore.collection("posts").doc(postId).get();
+    getAllComments();
+  }, []);
+
+  const getAllComments = async () => {
+    const data = await db.firestore().collection("posts").doc(postId).get();
 
     setAllComments(data.data().comments);
-  }, [allComments]);
+  };
 
   const addNewComment = async () => {
     await db
@@ -44,8 +48,13 @@ export default function CommentsScreen({ route }) {
       .collection("posts")
       .doc(postId)
       .update({
-        comments: [...comments, { comment, login, date: currentDate, avatar }],
+        comments: [
+          ...allComments,
+          { comment, login, date: currentDate, avatar },
+        ],
       });
+
+    getAllComments();
 
     setComment("");
   };
