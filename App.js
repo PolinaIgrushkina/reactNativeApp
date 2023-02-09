@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 
-import * as Font from "expo-font";
-import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
@@ -10,31 +10,27 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import Main from "./components/Main";
 
-const loadFonts = async () => {
-  await Font.loadAsync({
+export default function App() {
+  const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
     "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
     "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
   });
-};
 
-export default function App() {
-  const [isReady, setIsReady] = useState(false);
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
 
-  if (!isReady) {
-    return (
-      <AppLoading
-        startAsync={loadFonts}
-        onFinish={() => setIsReady(true)}
-        onError={console.warn}
-      />
-    );
+  if (!fontsLoaded) {
+    return null;
   }
 
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Main />
+        <Main onLayout={onLayoutRootView} />
       </NavigationContainer>
     </Provider>
   );
